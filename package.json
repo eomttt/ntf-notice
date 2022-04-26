@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ./ --quiet --cache --fix"
   },
   "dependencies": {
     "next": "12.1.5",
@@ -14,6 +14,7 @@
     "react-dom": "18.0.0"
   },
   "devDependencies": {
+    "@diritto/eslint-config": "https://github.com/diritto-corp/eslint-config.git",
     "@types/node": "17.0.27",
     "@types/react": "18.0.7",
     "@types/react-dom": "18.0.0",
