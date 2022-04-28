@@ -7,7 +7,7 @@
 ## Install
 
 ```sh
-yarn install
+yarn install --frozen-lockfile
 ```
 
 ## Debug
