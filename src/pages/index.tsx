@@ -12,7 +12,7 @@ const Home: NextPage = () => (
       </Link>
     </div>
     <div className="w-full text-center pt-8">
-      <Link href="/subscribe_manage">
+      <Link href="/manage_login">
         <button className="bg-gray-300 hover:bg-gray-400 w-32 h-10 rounded-md">구독변경</button>
       </Link>
     </div>
