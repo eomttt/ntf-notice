@@ -6,3 +6,6 @@ sentry.server.config.js
 sentry.client.config.js
 devServer.js
 server.js
+
+postcss.config.js
+tailwind.config.js
