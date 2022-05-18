@@ -31,7 +31,7 @@ const Home = () => {
 
   const handleClickSubscribe = async () => {
     if (!value) {
-      alert('Input 을 입력하세요.');
+      alert('Input 을 입력하세요.!');
     } else {
       setIsLoading(true);
       const result = await getListAPI();
