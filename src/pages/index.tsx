@@ -8,11 +8,13 @@ import { useCallback, useState } from 'react';
 const Home: NextPage = () => {
   const [email, setEmail] = useState<string>();
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
+  const [proposeProjects, setProposeProjects] = useState<string>('');
 
   const handleSubscribe = useCallback(() => {
-    // TODO: email, 선택된 id 바탕으로 서버에 보내야함
-    console.log(email, projectItemIds);
-  }, [email, projectItemIds]);
+    // TODO: email, 선택된 id, 추가요청 프로젝트 바탕으로 서버에 보내야함
+    // TODO: 추가로 validate 해서 보내야함
+    console.log(email, projectItemIds, proposeProjects);
+  }, [email, projectItemIds, proposeProjects]);
 
   return (
     <Layout>
@@ -27,7 +29,11 @@ const Home: NextPage = () => {
         <InputEmailFrom onSubmit={setEmail} />
         {email && (
           <>
-            <SelectProjects className="mt-8 w-full" onChange={setProjectItemIds} />
+            <SelectProjects
+              className="mt-8 w-full"
+              onChange={setProjectItemIds}
+              onChangeProposeProjects={setProposeProjects}
+            />
             <Button className="mt-5 w-full" type="button" label="구독신청" onClick={handleSubscribe} />
           </>
         )}

@@ -1,4 +1,5 @@
 import { Button } from 'components/Button';
+import { Input } from 'components/Input';
 import { useForm } from 'react-hook-form';
 
 type FormData = {
@@ -30,8 +31,7 @@ export const InputEmailFrom = ({ onSubmit }: InputEmailFromProps) => {
     <form className="flex items-end justify-between" onSubmit={handleSubmit<FormData>(e => onSubmit(e.email))}>
       <div className="relative flex-grow">
         <p className="w-full text-left mb-1 text-s">이메일 주소</p>
-        <input
-          className="w-full h-12 rounded-lg border-2 px-1 outline-cyan-500"
+        <Input
           {...register('email', {
             required: true,
             validate: handleEmailValidation,
