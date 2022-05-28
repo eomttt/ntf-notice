@@ -14,6 +14,8 @@ const Home: NextPage = () => {
     // TODO: email, 선택된 id, 추가요청 프로젝트 바탕으로 서버에 보내야함
     // TODO: 추가로 validate 해서 보내야함
     console.log(email, projectItemIds, proposeProjects);
+    alert('이메일 통해서 구독 완료해주세요. (구독 완료해야지 이메일을 받으 실 수 있습니다.)');
+    window.location.reload();
   }, [email, projectItemIds, proposeProjects]);
 
   return (
