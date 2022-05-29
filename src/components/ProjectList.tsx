@@ -1,4 +1,4 @@
-import { ProjectItem } from 'hooks/useGetProjectItems';
+import { ProjectItem } from 'api/ProjectApi';
 
 interface ProjectListProps {
   className?: string;
@@ -26,7 +26,7 @@ export const ProjectList = ({ className, isLoading = false, isSelected, projectI
               onChange={e => onChange(Number(e.target.value))}
             />
             <label className="ml-1 cursor-pointer" htmlFor={`${projectItem.id}`}>
-              {projectItem.title}
+              {projectItem.name}
             </label>
           </li>
         ))}

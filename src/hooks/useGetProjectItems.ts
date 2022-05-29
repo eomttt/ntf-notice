@@ -1,23 +1,5 @@
+import { ProjectApi, ProjectItem, SelectedProjectItemMap } from 'api/ProjectApi';
 import { useCallback, useEffect, useState } from 'react';
-
-export type ProjectItem = {
-  id: number;
-  title: string;
-};
-
-export type SelectedProjectItemMap = Record<number, boolean>;
-
-const MOCK_COUNT = 10;
-
-const mockProjectItems: ProjectItem[] = new Array(MOCK_COUNT).fill(null).map((_, index) => ({
-  id: index,
-  title: `Project ${index}`,
-}));
-
-const mockSelectedProjectMap: SelectedProjectItemMap = new Array(MOCK_COUNT)
-  .fill(null)
-  .map((_, index) => index)
-  .reduce((acc, cur) => ({ ...acc, [cur]: false }), {});
 
 export const useGetProjectItems = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,14 +8,16 @@ export const useGetProjectItems = () => {
 
   useEffect(() => {
     (async () => {
-      // TODO: 추후에 api 통해서 서버에 project items 받아와야함
-      // 지금은 아직 api 가 없어서 api 요청 후 1초 뒤에 온다고 생각하고 setTimeout 으로 지정함
       setIsLoading(true);
-      setTimeout(() => {
-        setProjectItems(mockProjectItems);
-        setSelectedProjectMap(mockSelectedProjectMap);
+      try {
+        const res = await ProjectApi.getProjects();
+        setProjectItems(res.data.projectItems);
+        setSelectedProjectMap(res.data.selectedProjectMap);
+      } catch {
+        // TODO: 에러 처리
+      } finally {
         setIsLoading(false);
-      }, 1000);
+      }
     })();
   }, []);
 

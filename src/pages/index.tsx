@@ -1,3 +1,5 @@
+import { ProjectApi } from 'api/ProjectApi';
+import { AxiosError } from 'axios';
 import { Button } from 'components/Button';
 import { InputEmailFrom } from 'components/InputEmailForm';
 import { Layout } from 'components/Layout';
@@ -6,16 +8,32 @@ import type { NextPage } from 'next';
 import { useCallback, useState } from 'react';
 
 const Home: NextPage = () => {
-  const [email, setEmail] = useState<string>();
+  const [email, setEmail] = useState<string>('');
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
 
-  const handleSubscribe = useCallback(() => {
-    // TODO: email, 선택된 id, 추가요청 프로젝트 바탕으로 서버에 보내야함
-    // TODO: 추가로 validate 해서 보내야함
-    console.log(email, projectItemIds, proposeProjects);
-    alert('이메일 통해서 구독 완료해주세요. (구독 완료해야지 이메일을 받으 실 수 있습니다.)');
-    window.location.reload();
+  const handleSubscribe = useCallback(async () => {
+    const optionProjects = proposeProjects.split(',');
+
+    if (projectItemIds.length === 0 && !proposeProjects) {
+      alert('최소 한개 이상의 프로젝트를 선택해주세요.');
+      return;
+    }
+
+    try {
+      await ProjectApi.subscribeProjects({
+        email,
+        projectIds: projectItemIds,
+        optionProjects,
+      });
+      alert('구독 신청이 완료 되었습니다. 메일을 확인해주세요.');
+      window.location.reload();
+    } catch (e) {
+      if ((e as AxiosError).response?.status === 400) {
+        alert('이미 구독 신청을 하셨습니다.');
+      }
+      // TODO: Error handling
+    }
   }, [email, projectItemIds, proposeProjects]);
 
   return (

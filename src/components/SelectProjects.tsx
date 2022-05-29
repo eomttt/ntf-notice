@@ -37,7 +37,13 @@ export const SelectProjects = ({ className, onChange, onChangeProposeProjects }:
   );
 
   useEffect(() => {
-    onChange(Object.keys(selectedProjectMap).map(Number));
+    const selected = Object.keys(selectedProjectMap).reduce<number[]>((acc, cur) => {
+      if (selectedProjectMap[Number(cur)]) {
+        acc.push(Number(cur));
+      }
+      return acc;
+    }, []);
+    onChange(selected);
   }, [onChange, selectedProjectMap]);
 
   return (

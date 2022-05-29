@@ -9,6 +9,7 @@
     "lint": "eslint ./ --quiet --cache --fix"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "eslint": "^7.32.0",
     "next": "12.1.5",
     "react": "18.0.0",
