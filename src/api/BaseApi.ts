@@ -6,7 +6,7 @@ export class BaseApi {
       // Server 인 경우
       return process.env.NEXT_PUBLIC_DIRITTO_API_URL;
     }
-    return '/api';
+    return process.env.NEXT_PUBLIC_DIRITTO_API_URL;
   }
 
   static http = new Http();
