@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "env-cmd -f .env.local next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "env-cmd -f .env.production next start",
     "lint": "eslint ./ --quiet --cache --fix"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@types/react": "18.0.7",
     "@types/react-dom": "18.0.0",
     "autoprefixer": "^10.4.5",
+    "env-cmd": "^10.1.0",
     "eslint-config-next": "12.1.5",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.24",
