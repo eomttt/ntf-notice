@@ -4,6 +4,10 @@
 
 # Run
 
+## Set up env file
+
+- 1password 에서 nft-notice .env 파일 다운로드 후 `nft-notice/` 하위 에 저장
+
 ## Install
 
 ```sh

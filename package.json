@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "eslint": "^7.32.0",
     "next": "12.1.5",
+    "next-http-proxy-middleware": "^1.2.4",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-hook-form": "^7.30.0"
