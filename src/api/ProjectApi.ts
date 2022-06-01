@@ -18,4 +18,8 @@ export class ProjectApi extends BaseApi {
   static subscribeProjects(data: { email: string; projectIds: number[]; optionProjects: string[] }) {
     return this.http.post(`${this.url}/projects/subscribe`, data);
   }
+
+  static confirmSubscribeProjects(data: { token: string }) {
+    return this.http.post<{ token: string }, object>(`${this.url}/projects/confirm-subscribe`, data);
+  }
 }

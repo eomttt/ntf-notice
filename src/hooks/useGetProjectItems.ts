@@ -2,7 +2,7 @@ import { ProjectApi, ProjectItem, SelectedProjectItemMap } from 'api/ProjectApi'
 import { useCallback, useEffect, useState } from 'react';
 
 export const useGetProjectItems = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [projectItems, setProjectItems] = useState<ProjectItem[]>([]);
   const [selectedProjectMap, setSelectedProjectMap] = useState<SelectedProjectItemMap>({});
 

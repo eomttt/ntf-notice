@@ -9,7 +9,7 @@ interface ProjectListProps {
 }
 
 export const ProjectList = ({ className, isLoading = false, isSelected, projectItems, onChange }: ProjectListProps) => (
-  <ul className={`w-full h-56 border-2 rounded-lg overflow-y-scroll p-1 ${className}`}>
+  <ul className={`w-full h-56 border-2 border-black rounded-lg overflow-y-scroll p-1 ${className}`}>
     {isLoading ? (
       <div>Loading</div>
     ) : (

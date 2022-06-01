@@ -1,16 +1,19 @@
+import { HTMLProps } from 'react';
+
 /* eslint-disable react/button-has-type */
-interface ButtonProps {
+interface ButtonProps extends HTMLProps<HTMLButtonElement> {
   className?: string;
   type: 'button' | 'submit' | 'reset';
   label: string;
   onClick?: () => void;
 }
 
-export const Button = ({ className, type, label, onClick }: ButtonProps) => (
+export const Button = ({ className, type, label, onClick, ...rest }: ButtonProps) => (
   <button
-    className={`min-w-24 h-12 rounded-lg border-solid border-2 p-2 text-white font-bold bg-cyan-500 active:bg-cyan-600 whitespace-nowrap ${className}`}
+    className={`min-w-24 h-12 rounded-lg border-2 border-black p-2 font-bold bg-primary whitespace-nowrap ${className}`}
     type={type}
-    onClick={onClick}>
+    onClick={onClick}
+    {...rest}>
     {label}
   </button>
 );
