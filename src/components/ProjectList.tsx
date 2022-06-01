@@ -22,7 +22,14 @@ export const ProjectList = ({ className, isLoading = false, isSelected, projectI
               id={`${projectItem.id}`}
               name={`${projectItem.id}`}
               value={`${projectItem.id}`}
-              label={projectItem.name}
+              label={
+                <>
+                  {projectItem.name}
+                  <a href={projectItem.link} target="_blank" rel="noreferrer" className="ml-2 text-primary">
+                    [링크]
+                  </a>
+                </>
+              }
               onChange={v => onChange(Number(v))}
             />
           </li>

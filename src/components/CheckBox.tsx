@@ -1,9 +1,11 @@
+import { ReactNode } from 'react';
+
 type CheckBoxProps = {
   checked: boolean;
   id: string;
   name: string;
   value: string;
-  label: string;
+  label: ReactNode;
   onChange: (value: string) => void;
 };
 

@@ -3,6 +3,7 @@ import { BaseApi } from 'api/BaseApi';
 export type ProjectItem = {
   id: number;
   name: string;
+  link: string;
 };
 
 export type SelectedProjectItemMap = Record<number, boolean>;
