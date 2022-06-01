@@ -1,4 +1,5 @@
 import { ProjectItem } from 'api/ProjectApi';
+import { CheckBox } from 'components/CheckBox';
 
 interface ProjectListProps {
   className?: string;
@@ -16,18 +17,14 @@ export const ProjectList = ({ className, isLoading = false, isSelected, projectI
       <>
         {projectItems.map(projectItem => (
           <li className="my-2" key={projectItem.id}>
-            <input
-              className="cursor-pointer"
-              type="checkbox"
+            <CheckBox
               checked={isSelected}
               id={`${projectItem.id}`}
               name={`${projectItem.id}`}
-              value={projectItem.id}
-              onChange={e => onChange(Number(e.target.value))}
+              value={`${projectItem.id}`}
+              label={projectItem.name}
+              onChange={v => onChange(Number(v))}
             />
-            <label className="ml-1 cursor-pointer" htmlFor={`${projectItem.id}`}>
-              {projectItem.name}
-            </label>
           </li>
         ))}
       </>
