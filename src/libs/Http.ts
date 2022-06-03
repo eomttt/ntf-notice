@@ -1,16 +1,17 @@
 /* eslint-disable class-methods-use-this */
+import assert from 'assert';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { reviveDateTime } from 'libs/date';
 
-// type HttpOptions = {
-//   refreshTokenUrl?: string;
-//   csrfTokenUrl?: string;
-// };
+type HttpOptions = {
+  refreshTokenUrl?: string;
+  csrfTokenUrl?: string;
+};
 
 export class Http {
   private instance: AxiosInstance;
 
-  constructor() {
+  constructor(private readonly options: HttpOptions = {}) {
     this.instance = axios.create({
       headers: {
         'content-type': 'application/json',
@@ -99,22 +100,35 @@ export class Http {
   //   return data.csrfToken;
   // }
 
-  // async refreshToken(options?: AxiosRequestConfig): Promise<AxiosResponse<RefreshTokenResponseDto>> {
-  //   assert(this.options.refreshTokenUrl);
-  //   return this.instance.post(
-  //     this.options.refreshTokenUrl,
-  //     {},
-  //     {
-  //       ...options,
-  //       headers: { ...options?.headers, 'csrf-token': await this.getCsrfToken(options) },
-  //     },
-  //   );
-  // }
+  async refreshToken(options?: AxiosRequestConfig) {
+    assert(this.options.refreshTokenUrl);
+
+    return this.instance.post(
+      this.options.refreshTokenUrl,
+      {},
+      {
+        ...options,
+        // headers: { ...options?.headers, 'csrf-token': await this.getCsrfToken(options) },
+      },
+    );
+  }
+
+  private isUnauthorizedError(error: unknown) {
+    return axios.isAxiosError(error) && error.response && error.response.status === 401;
+  }
 
   private async refreshIfUnauthorized<ResponseType>(
     handler: (opts?: AxiosRequestConfig) => Promise<AxiosResponse<ResponseType>>,
     options?: AxiosRequestConfig,
   ) {
-    return handler(options);
+    try {
+      return await handler(options);
+    } catch (error) {
+      if (this.isUnauthorizedError(error) && this.options.refreshTokenUrl) {
+        await this.refreshToken(options);
+        return await handler(options);
+      }
+      throw error;
+    }
   }
 }

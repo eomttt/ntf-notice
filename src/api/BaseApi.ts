@@ -9,5 +9,7 @@ export class BaseApi {
     return '/api';
   }
 
-  static http = new Http();
+  static http = new Http({
+    refreshTokenUrl: `${this.url}/refresh-token`,
+  });
 }

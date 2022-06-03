@@ -5,10 +5,9 @@ import { Layout } from 'components/Layout';
 import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
 import { useSubscribe } from 'hooks/useSubscribe';
-import type { NextPage } from 'next';
 import { useCallback, useState } from 'react';
 
-const Home: NextPage = () => {
+const Home = () => {
   const [email, setEmail] = useState<string>('');
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
