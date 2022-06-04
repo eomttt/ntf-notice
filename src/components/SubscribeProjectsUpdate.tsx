@@ -3,6 +3,7 @@ import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
 import { useGetUserSelectedProjects } from 'hooks/useGetUserSelectedProjects';
 import { useMutateSubscribeUpdate } from 'hooks/useMutateSubscribeUpdate';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 
 interface SubscribeProjectsUpdateProps {
@@ -10,6 +11,8 @@ interface SubscribeProjectsUpdateProps {
 }
 
 export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps) => {
+  const router = useRouter();
+
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
 
@@ -25,8 +28,8 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
   }, []);
 
   const handleLogOut = useCallback(() => {
-    console.log('Log out');
-  }, []);
+    router.push('/logout');
+  }, [router]);
 
   return (
     <>

@@ -6,6 +6,10 @@ export type User = {
 };
 
 export class UserApi extends BaseApi {
+  static logOut() {
+    return this.http.post(`${this.url}/logout`);
+  }
+
   static getUser(options?: AxiosRequestConfig) {
     return this.http.get<User>(`${this.url}/user`, options);
   }
