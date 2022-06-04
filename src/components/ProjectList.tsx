@@ -24,8 +24,8 @@ export const ProjectList = ({ className, isLoading = false, isSelected, projectI
               value={`${projectItem.id}`}
               label={
                 <>
-                  {projectItem.name}
-                  <a href={projectItem.link} target="_blank" rel="noreferrer" className="ml-2 text-primary">
+                  {projectItem.title}
+                  <a href={projectItem.discordLink} target="_blank" rel="noreferrer" className="ml-2 text-primary">
                     [링크]
                   </a>
                 </>

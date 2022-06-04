@@ -7,6 +7,7 @@ type FormData = {
 };
 
 interface InputEmailFromProps {
+  disabled?: boolean;
   onSubmit: (email: string) => void;
 }
 
@@ -16,7 +17,7 @@ const isValidEmail = (email: string) =>
     email,
   );
 
-export const InputEmailFrom = ({ onSubmit }: InputEmailFromProps) => {
+export const InputEmailFrom = ({ disabled, onSubmit }: InputEmailFromProps) => {
   const {
     register,
     handleSubmit,
@@ -32,6 +33,7 @@ export const InputEmailFrom = ({ onSubmit }: InputEmailFromProps) => {
       <div className="relative flex-grow">
         <p className="w-full text-left mb-1 text-s">이메일 주소</p>
         <Input
+          disabled={disabled}
           {...register('email', {
             required: true,
             validate: handleEmailValidation,
@@ -44,7 +46,12 @@ export const InputEmailFrom = ({ onSubmit }: InputEmailFromProps) => {
           {errors.email?.type === 'required' ? '이메일을 입력해주세요.' : '이메일 형식으로 입력해주세요.'}
         </p>
       </div>
-      <Button className="ml-5" type="submit" label="구독하기" />
+      <Button
+        className={`${disabled ? 'opacity-40' : 'opacity-1'} ml-5`}
+        type="submit"
+        label="구독하기"
+        disabled={disabled}
+      />
     </form>
   );
 };

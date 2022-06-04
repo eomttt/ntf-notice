@@ -1,10 +1,10 @@
-import { HTMLProps } from 'react';
+import { HTMLProps, ReactNode } from 'react';
 
 /* eslint-disable react/button-has-type */
-interface ButtonProps extends HTMLProps<HTMLButtonElement> {
+interface ButtonProps extends Omit<HTMLProps<HTMLButtonElement>, 'label'> {
   className?: string;
   type: 'button' | 'submit' | 'reset';
-  label: string;
+  label: ReactNode;
   onClick?: () => void;
 }
 

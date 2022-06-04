@@ -1,26 +1,39 @@
+import { ProjectItem } from 'api/ProjectApi';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 import { ProjectList } from 'components/ProjectList';
-import { useGetProjectItems } from 'hooks/useGetProjectItems';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 interface SelectProjectsProps {
   className?: string;
+  projectItems: ProjectItem[];
+  selectedProjectMap: Record<number, boolean>;
+  isLoading: boolean;
+  addSelected: (projectItemId: number) => void;
+  removeSelected: (projectItemId: number) => void;
   onChange: (itemIds: number[]) => void;
   onChangeProposeProjects: (proposeProjects: string) => void;
 }
 
-export const SelectProjects = ({ className, onChange, onChangeProposeProjects }: SelectProjectsProps) => {
+export const SelectProjects = ({
+  className,
+  projectItems,
+  selectedProjectMap,
+  isLoading,
+  addSelected,
+  removeSelected,
+  onChange,
+  onChangeProposeProjects,
+}: SelectProjectsProps) => {
   const [searchText, setSearchText] = useState('');
-  const { isLoading, projectItems, selectedProjectMap, addSelected, removeSelected } = useGetProjectItems();
 
   const unSelectedProjectItems = useMemo(
-    () => projectItems.filter(({ id }) => !selectedProjectMap[id]),
+    () => projectItems.filter(({ id }) => !selectedProjectMap[id]) || [],
     [projectItems, selectedProjectMap],
   );
 
   const selectedProjectItems = useMemo(
-    () => projectItems.filter(({ id }) => selectedProjectMap[id]),
+    () => projectItems.filter(({ id }) => selectedProjectMap[id]) || [],
     [projectItems, selectedProjectMap],
   );
 
@@ -44,7 +57,7 @@ export const SelectProjects = ({ className, onChange, onChangeProposeProjects }:
       return acc;
     }, []);
     onChange(selected);
-  }, [onChange, selectedProjectMap]);
+  }, [selectedProjectMap, onChange, selectedProjectItems]);
 
   return (
     <section className={`w-full ${className}`}>

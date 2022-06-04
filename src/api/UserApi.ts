@@ -1,7 +1,12 @@
 import { BaseApi } from 'api/BaseApi';
+import { AxiosRequestConfig } from 'axios';
+
+export type User = {
+  email: string;
+};
 
 export class UserApi extends BaseApi {
-  static getUser() {
-    return this.http.get(`${this.url}/user`);
+  static getUser(options?: AxiosRequestConfig) {
+    return this.http.get<User>(`${this.url}/user`, options);
   }
 }

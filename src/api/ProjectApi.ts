@@ -2,8 +2,8 @@ import { BaseApi } from 'api/BaseApi';
 
 export type ProjectItem = {
   id: number;
-  name: string;
-  link: string;
+  title: string;
+  discordLink: string;
 };
 
 export type SelectedProjectItemMap = Record<number, boolean>;
@@ -14,6 +14,13 @@ export class ProjectApi extends BaseApi {
       projectItems: ProjectItem[];
       selectedProjectMap: SelectedProjectItemMap;
     }>(`${this.url}/projects`);
+  }
+
+  static getUserSelectedProjects() {
+    return this.http.get<{
+      projectItems: ProjectItem[];
+      selectedProjectMap: SelectedProjectItemMap;
+    }>(`${this.url}/projects/selected`);
   }
 
   static subscribeProjects(data: { email: string; projectIds: number[]; optionProjects: string[] }) {

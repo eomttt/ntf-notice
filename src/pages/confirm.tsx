@@ -1,12 +1,12 @@
 import { Layout } from 'components/Layout';
 import { Loading } from 'components/Loading';
-import { useConfirmSubscribe } from 'hooks/useConfirmSubscribe';
+import { useMutateConfirmSubscribe } from 'hooks/useMutateConfirmSubscribe';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
 const Confirm = () => {
   const router = useRouter();
-  const { isError, isLoading, data, confirmSubscribe } = useConfirmSubscribe();
+  const { isError, isLoading, data, confirmSubscribe } = useMutateConfirmSubscribe();
 
   useEffect(() => {
     if (router.query.token) {

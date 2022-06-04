@@ -1,25 +1,20 @@
 import { ProjectApi, ProjectItem, SelectedProjectItemMap } from 'api/ProjectApi';
 import { useCallback, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-export const useGetProjectItems = () => {
-  const [isLoading, setIsLoading] = useState(false);
+export const useGetProjects = () => {
+  const { data, error } = useSWR('/projects', () => ProjectApi.getProjects());
+
   const [projectItems, setProjectItems] = useState<ProjectItem[]>([]);
   const [selectedProjectMap, setSelectedProjectMap] = useState<SelectedProjectItemMap>({});
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      try {
-        const res = await ProjectApi.getProjects();
-        setProjectItems(res.data.projectItems);
-        setSelectedProjectMap(res.data.selectedProjectMap);
-      } catch {
-        // TODO: 에러 처리
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+    setProjectItems(data?.data?.projectItems || []);
+  }, [data?.data?.projectItems]);
+
+  useEffect(() => {
+    setSelectedProjectMap(data?.data?.selectedProjectMap || {});
+  }, [data?.data?.selectedProjectMap]);
 
   const addSelected = useCallback((id: number) => {
     setSelectedProjectMap(prev => ({ ...prev, [id]: true }));
@@ -30,7 +25,8 @@ export const useGetProjectItems = () => {
   }, []);
 
   return {
-    isLoading,
+    error,
+    isLoading: !data && !error,
     projectItems,
     selectedProjectMap,
     addSelected,

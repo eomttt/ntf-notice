@@ -7,5 +7,5 @@ interface LoadingProps {
 }
 
 export const Loading = ({ color = '#42F8EA', width, height }: LoadingProps) => (
-  <ReactLoading type="spin" color={color} height={height} width={width} />
+  <ReactLoading className="inline-block" type="spin" color={color} height={height} width={width} />
 );

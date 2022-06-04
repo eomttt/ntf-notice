@@ -1,7 +1,7 @@
 import { ProjectApi } from 'api/ProjectApi';
 import { useCallback, useState } from 'react';
 
-export const useConfirmSubscribe = () => {
+export const useMutateConfirmSubscribe = () => {
   const [data, setData] = useState<object>();
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

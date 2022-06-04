@@ -2,7 +2,7 @@ import { ProjectApi } from 'api/ProjectApi';
 import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 
-export const useSubscribe = (successCallback: () => void, errorCallback: (e: AxiosError) => void) => {
+export const useMutateSubscribe = (successCallback: () => void, errorCallback: (e: AxiosError) => void) => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
