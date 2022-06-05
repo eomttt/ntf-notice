@@ -18,14 +18,21 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
 
   const { projectItems, selectedProjectMap, isLoading, addSelected, removeSelected } = useGetUserSelectedProjects();
 
-  const { isLoading: isLoadingMutate } = useMutateSubscribeUpdate(() => {
+  const { subscribeUpdate, isLoading: isLoadingMutate } = useMutateSubscribeUpdate(() => {
     alert('구독 수정이 완료 되었습니다.');
     window.location.reload();
   });
 
   const handleUpdate = useCallback(async () => {
-    console.log('Handle update');
-  }, []);
+    const optionProjects = proposeProjects.split(',');
+
+    if (projectItemIds.length === 0 && !proposeProjects) {
+      alert('최소 한개 이상의 프로젝트를 선택해주세요.');
+      return;
+    }
+
+    await subscribeUpdate({ email, projectIds: projectItemIds, optionProjects });
+  }, [email, projectItemIds, proposeProjects, subscribeUpdate]);
 
   const handleLogOut = useCallback(() => {
     router.push('/logout');

@@ -6,11 +6,11 @@ export const useMutateSubscribeUpdate = (successCallback: () => void, errorCallb
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const subscribeProject = useCallback(
+  const subscribeUpdate = useCallback(
     async (params: { email: string; projectIds: number[]; optionProjects: string[] }) => {
       try {
         setIsLoading(true);
-        await ProjectApi.subscribeProjects(params);
+        await ProjectApi.updateSubscribeProjects(params);
         successCallback();
       } catch (e) {
         setIsError(true);
@@ -23,7 +23,7 @@ export const useMutateSubscribeUpdate = (successCallback: () => void, errorCallb
   );
 
   return {
-    subscribeProject,
+    subscribeUpdate,
     isError,
     isLoading,
   };

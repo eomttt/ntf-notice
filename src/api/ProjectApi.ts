@@ -23,6 +23,10 @@ export class ProjectApi extends BaseApi {
     }>(`${this.url}/projects/selected`);
   }
 
+  static updateSubscribeProjects(data: { email: string; projectIds: number[]; optionProjects: string[] }) {
+    return this.http.put(`${this.url}/projects/subscribe`, data);
+  }
+
   static subscribeProjects(data: { email: string; projectIds: number[]; optionProjects: string[] }) {
     return this.http.post(`${this.url}/projects/subscribe`, data);
   }
