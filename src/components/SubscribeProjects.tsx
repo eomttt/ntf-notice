@@ -18,12 +18,16 @@ export const SubscribeProjects = () => {
 
   const { subscribeProject, isLoading: isLoadingMutate } = useMutateSubscribe(
     () => {
-      alert('구독 신청이 완료 되었습니다. 메일을 확인해주세요.');
-      window.location.reload();
+      ModalService.show(ModalType.Alert, {
+        title: '구독 신청이 완료 되었습니다. 메일을 확인해주세요.',
+        onConfirm: () => window.location.reload(),
+      });
     },
     (e: AxiosError) => {
       if ((e as AxiosError).response?.status === 400) {
-        alert('이미 구독 신청을 하셨습니다.');
+        ModalService.show(ModalType.Alert, {
+          title: '이미 구독 신청을 하셨습니다.',
+        });
       }
     },
   );
@@ -33,7 +37,7 @@ export const SubscribeProjects = () => {
 
     if (projectItemIds.length === 0 && !proposeProjects) {
       ModalService.show(ModalType.Alert, {
-        title: '최소 한개 이상의 프로젝트를 선택해주세요. ',
+        title: '최소 한개 이상의 프로젝트를 선택해주세요.',
       });
 
       return;

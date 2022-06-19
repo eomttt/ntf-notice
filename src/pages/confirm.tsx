@@ -1,8 +1,10 @@
 import { Layout } from 'components/Layout';
 import { Loading } from 'components/Loading';
+import { ModalType } from 'constants/modal';
 import { useMutateConfirmSubscribe } from 'hooks/useMutateConfirmSubscribe';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { ModalService } from 'services/ModalService';
 
 const Confirm = () => {
   const router = useRouter();
@@ -16,15 +18,19 @@ const Confirm = () => {
 
   useEffect(() => {
     if (isError) {
-      alert('문제가 발생 했습니다. 다시 인증 시도해주세요.');
-      router.replace('/');
+      ModalService.show(ModalType.Alert, {
+        title: '문제가 발생 했습니다. 다시 인증 시도해주세요.',
+        onConfirm: () => router.replace('/'),
+      });
     }
   }, [isError, router]);
 
   useEffect(() => {
     if (data && !isLoading) {
-      alert('인증이 완료 되었습니다.');
-      router.replace('/');
+      ModalService.show(ModalType.Alert, {
+        title: '인증이 완료 되었습니다.',
+        onConfirm: () => router.replace('/'),
+      });
     }
   }, [data, isLoading, router]);
 

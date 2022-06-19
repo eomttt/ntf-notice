@@ -1,10 +1,12 @@
 import { Button } from 'components/Button';
 import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
+import { ModalType } from 'constants/modal';
 import { useGetUserSelectedProjects } from 'hooks/useGetUserSelectedProjects';
 import { useMutateSubscribeUpdate } from 'hooks/useMutateSubscribeUpdate';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
+import { ModalService } from 'services/ModalService';
 
 interface SubscribeProjectsUpdateProps {
   email: string;
@@ -19,15 +21,19 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
   const { projectItems, selectedProjectMap, isLoading, addSelected, removeSelected } = useGetUserSelectedProjects();
 
   const { subscribeUpdate, isLoading: isLoadingMutate } = useMutateSubscribeUpdate(() => {
-    alert('구독 수정이 완료 되었습니다.');
-    window.location.reload();
+    ModalService.show(ModalType.Alert, {
+      title: '구독 수정이 완료 되었습니다.',
+      onConfirm: () => window.location.reload(),
+    });
   });
 
   const handleUpdate = useCallback(async () => {
     const optionProjects = proposeProjects.split(',');
 
     if (projectItemIds.length === 0 && !proposeProjects) {
-      alert('최소 한개 이상의 프로젝트를 선택해주세요.');
+      ModalService.show(ModalType.Alert, {
+        title: '최소 한개 이상의 프로젝트를 선택해주세요.',
+      });
       return;
     }
 
