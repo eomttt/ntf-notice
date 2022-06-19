@@ -7,6 +7,7 @@ type FormData = {
 };
 
 interface InputEmailFromProps {
+  label: string;
   disabled?: boolean;
   onSubmit: (email: string) => void;
 }
@@ -17,7 +18,7 @@ const isValidEmail = (email: string) =>
     email,
   );
 
-export const InputEmailFrom = ({ disabled, onSubmit }: InputEmailFromProps) => {
+export const InputEmailFrom = ({ label, disabled, onSubmit }: InputEmailFromProps) => {
   const {
     register,
     handleSubmit,
@@ -49,7 +50,7 @@ export const InputEmailFrom = ({ disabled, onSubmit }: InputEmailFromProps) => {
       <Button
         className={`${disabled ? 'opacity-40' : 'opacity-1'} ml-5`}
         type="submit"
-        label="구독하기"
+        label={label}
         disabled={disabled}
       />
     </form>

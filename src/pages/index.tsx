@@ -8,7 +8,7 @@ import { getSSRAuthOptions } from 'libs/ssrOptions';
 import { NextPageContext } from 'next';
 import { useMemo } from 'react';
 
-const Home = ({ user }: { user: User }) => {
+const HomePage = ({ user }: { user: User }) => {
   const { data } = useGetUser();
 
   const isLoggedIn = useMemo(() => data?.data.email || user?.email, [data?.data.email, user?.email]);
@@ -51,4 +51,4 @@ export async function getServerSideProps(ctx: NextPageContext) {
   }
 }
 
-export default Home;
+export default HomePage;

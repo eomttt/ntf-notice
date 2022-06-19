@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { UserApi } from 'api/UserApi';
 import { AxiosError } from 'axios';
 import { Button } from 'components/Button';
@@ -8,10 +10,13 @@ import { ModalType } from 'constants/modal';
 import { useGetProjects } from 'hooks/useGetProjects';
 import { useMutateSendAuthEmail } from 'hooks/useMutateSendAuthEmail';
 import { useMutateSubscribe } from 'hooks/useMutateSubscribe';
+import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { ModalService } from 'services/ModalService';
 
 export const SubscribeProjects = () => {
+  const router = useRouter();
+
   const [email, setEmail] = useState<string>('');
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
@@ -92,7 +97,7 @@ export const SubscribeProjects = () => {
 
   return (
     <>
-      <InputEmailFrom disabled={isLoadingSendAuthEmail || !!email} onSubmit={handleCheckEmail} />
+      <InputEmailFrom label="구독하기" disabled={isLoadingSendAuthEmail || !!email} onSubmit={handleCheckEmail} />
       {email && (
         <>
           <SelectProjects
@@ -113,6 +118,11 @@ export const SubscribeProjects = () => {
             onClick={handleSubscribe}
           />
         </>
+      )}
+      {!email && (
+        <p className="underline text-center cursor-pointer mt-5" onClick={() => router.push('/update')}>
+          구독 변경하기
+        </p>
       )}
     </>
   );
