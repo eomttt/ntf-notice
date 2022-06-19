@@ -40,7 +40,7 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
 
   return (
     <>
-      <p className="font-bold text-primary text-center my-5">{email}</p>
+      <p className="font-bold text-center my-5">{`이메일: ${email}`}</p>
       <SelectProjects
         className="mt-8 w-full"
         projectItems={projectItems}

@@ -3,9 +3,11 @@ import { Button } from 'components/Button';
 import { InputEmailFrom } from 'components/InputEmailForm';
 import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
+import { ModalType } from 'constants/modal';
 import { useGetProjects } from 'hooks/useGetProjects';
 import { useMutateSubscribe } from 'hooks/useMutateSubscribe';
 import { useCallback, useState } from 'react';
+import { ModalService } from 'services/ModalService';
 
 export const SubscribeProjects = () => {
   const [email, setEmail] = useState<string>('');
@@ -30,7 +32,10 @@ export const SubscribeProjects = () => {
     const optionProjects = proposeProjects.split(',');
 
     if (projectItemIds.length === 0 && !proposeProjects) {
-      alert('최소 한개 이상의 프로젝트를 선택해주세요.');
+      ModalService.show(ModalType.Alert, {
+        title: '최소 한개 이상의 프로젝트를 선택해주세요. ',
+      });
+
       return;
     }
 
