@@ -38,11 +38,19 @@ export const AlertModal = () => {
 
   return (
     <ModalLayout isShow={isShow} revealModal={revealModal}>
-      <div className="w-80 bg-white p-6 rounded-lg flex flex-col items-start">
+      <div className="w-90 bg-white p-6 rounded-lg flex flex-col items-start">
         <p className="mb-3 text-left font-bold text-lg">{state?.title}</p>
         <p>{state?.description}</p>
         <div className="flex flex-row justify-end w-full">
-          {state?.cancelText && <Button type="button" label={state?.cancelText} onClick={handleClose} />}
+          {state?.cancelText && (
+            <Button
+              className="mr-3"
+              buttonType="secondary"
+              type="button"
+              label={state?.cancelText}
+              onClick={handleClose}
+            />
+          )}
           <Button type="button" label={state?.confirmText || '확인'} onClick={handleConfirm} />
         </div>
       </div>

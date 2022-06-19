@@ -1,20 +1,21 @@
+import { Button } from 'components/Button';
 import { Layout } from 'components/Layout';
 import { Loading } from 'components/Loading';
 import { ModalType } from 'constants/modal';
-import { useMutateConfirmSubscribe } from 'hooks/useMutateConfirmSubscribe';
+import { useMutateAuthentication } from 'hooks/useMutateAuthentication';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { ModalService } from 'services/ModalService';
 
-const Confirm = () => {
+const AuthenticationPage = () => {
   const router = useRouter();
-  const { isError, isLoading, data, confirmSubscribe } = useMutateConfirmSubscribe();
+  const { isError, isLoading, data, authentication } = useMutateAuthentication();
 
   useEffect(() => {
     if (router.query.token) {
-      confirmSubscribe(router.query.token as string);
+      authentication(router.query.token as string);
     }
-  }, [confirmSubscribe, router.query.token]);
+  }, [authentication, router, router.query.token]);
 
   useEffect(() => {
     if (isError) {
@@ -52,10 +53,13 @@ const Confirm = () => {
       </div>
       <div className="mt-40 flex flex-col items-center justify-center">
         <Loading width="100px" height="100px" />
-        <p className="mt-10">메일 확인 중입니다. 잠시만 기다려주세요.</p>
+        <p className="my-10">
+          {router.query.token ? '메일 확인 중입니다. 잠시만 기다려주세요.' : '잘못된 경로입니다.'}
+        </p>
+        {!router.query.token && <Button type="button" label="홈으로" onClick={() => router.replace('/')} />}
       </div>
     </Layout>
   );
 };
 
-export default Confirm;
+export default AuthenticationPage;
