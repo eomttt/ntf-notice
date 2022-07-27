@@ -9,11 +9,10 @@ export type ProjectItem = {
 export type SelectedProjectItemMap = Record<number, boolean>;
 
 export class ProjectApi extends BaseApi {
-  static getProjects() {
+  static getProjects(searchedText?: string) {
     return this.http.get<{
       projectItems: ProjectItem[];
-      selectedProjectMap: SelectedProjectItemMap;
-    }>(`${this.url}/projects`);
+    }>(`${this.url}/projects${searchedText ? `?q=${searchedText}` : ''}`);
   }
 
   static getUserSelectedProjects() {

@@ -4,20 +4,20 @@ import { InputEmailFrom } from 'components/InputEmailForm';
 import { Layout } from 'components/Layout';
 import { Title } from 'components/Title';
 import { ModalType } from 'constants/modal';
-import { useGetUser } from 'hooks/useGetUser';
 import { useMutateSendAuthEmail } from 'hooks/useMutateSendAuthEmail';
 import { getSSRAuthOptions } from 'libs/ssrOptions';
 import { NextPageContext } from 'next';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ModalService } from 'services/ModalService';
+import useSWR from 'swr';
 
 const UpdatePage = ({ user }: { user: User }) => {
   const router = useRouter();
   const [email, setEmail] = useState<string>('');
-  const { data } = useGetUser();
+  const { data: userData } = useSWR('/api/user', () => UserApi.getUser());
 
-  const isLoggedIn = useMemo(() => data?.data.email || user?.email, [data?.data.email, user?.email]);
+  const isLoggedIn = useMemo(() => userData?.data.email || user?.email, [userData?.data.email, user?.email]);
 
   const { sendEmail, isLoading: isLoadingSendAuthEmail } = useMutateSendAuthEmail();
 

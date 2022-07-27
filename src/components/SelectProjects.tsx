@@ -1,46 +1,48 @@
-import { ProjectItem } from 'api/ProjectApi';
+import { ProjectApi, SelectedProjectItemMap } from 'api/ProjectApi';
 import { Button } from 'components/Button';
 import { Input } from 'components/Input';
 import { ProjectList } from 'components/ProjectList';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
+import useSWR, { useSWRConfig } from 'swr';
 
 interface SelectProjectsProps {
   className?: string;
-  projectItems: ProjectItem[];
-  selectedProjectMap: Record<number, boolean>;
-  isLoading: boolean;
-  addSelected: (projectItemId: number) => void;
-  removeSelected: (projectItemId: number) => void;
   onChange: (itemIds: number[]) => void;
   onChangeProposeProjects: (proposeProjects: string) => void;
 }
 
-export const SelectProjects = ({
-  className,
-  projectItems,
-  selectedProjectMap,
-  isLoading,
-  addSelected,
-  removeSelected,
-  onChange,
-  onChangeProposeProjects,
-}: SelectProjectsProps) => {
+export const SelectProjects = ({ className, onChange, onChangeProposeProjects }: SelectProjectsProps) => {
   const [searchText, setSearchText] = useState('');
+  const { mutate } = useSWRConfig();
+
+  const { data: projectData, error } = useSWR('/projects', () => ProjectApi.getProjects(searchText));
+  const { data: selectedProjectData } = useSWR('/projects/selected', () => ProjectApi.getUserSelectedProjects(), {
+    revalidateOnFocus: false,
+  });
+
+  const [selectedProjectMap, setSelectedProjectMap] = useState<SelectedProjectItemMap>({});
 
   const unSelectedProjectItems = useMemo(
-    () => projectItems.filter(({ id }) => !selectedProjectMap[id]) || [],
-    [projectItems, selectedProjectMap],
+    () => projectData?.data.projectItems.filter(({ id }) => !selectedProjectMap[id]) || [],
+    [projectData?.data.projectItems, selectedProjectMap],
   );
 
   const selectedProjectItems = useMemo(
-    () => projectItems.filter(({ id }) => selectedProjectMap[id]) || [],
-    [projectItems, selectedProjectMap],
+    () => projectData?.data.projectItems.filter(({ id }) => selectedProjectMap[id]) || [],
+    [projectData?.data.projectItems, selectedProjectMap],
   );
 
+  const addSelected = useCallback((id: number) => {
+    setSelectedProjectMap(prev => ({ ...prev, [id]: true }));
+  }, []);
+
+  const removeSelected = useCallback((id: number) => {
+    setSelectedProjectMap(prev => ({ ...prev, [id]: false }));
+  }, []);
+
   const handleClickSearch = useCallback(() => {
-    // TODO: searchText 로 project 목록 다시 요청
-    console.log(searchText);
-  }, [searchText]);
+    mutate('/projects');
+  }, [mutate]);
 
   const handleChangeOptions = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,14 +52,19 @@ export const SelectProjects = ({
   );
 
   useEffect(() => {
-    const selected = Object.keys(selectedProjectMap).reduce<number[]>((acc, cur) => {
-      if (selectedProjectMap[Number(cur)]) {
-        acc.push(Number(cur));
-      }
-      return acc;
-    }, []);
-    onChange(selected);
+    onChange(
+      Object.keys(selectedProjectMap).reduce<number[]>((acc, cur) => {
+        if (selectedProjectMap[Number(cur)]) {
+          acc.push(Number(cur));
+        }
+        return acc;
+      }, []),
+    );
   }, [selectedProjectMap, onChange, selectedProjectItems]);
+
+  useEffect(() => {
+    setSelectedProjectMap(selectedProjectData?.data?.selectedProjectMap || {});
+  }, [selectedProjectData?.data?.selectedProjectMap]);
 
   return (
     <section className={`w-full ${className}`}>
@@ -71,7 +78,7 @@ export const SelectProjects = ({
       <p className="mt-5 mb-2 text-s">프로젝트 목록</p>
       <ProjectList
         isSelected={false}
-        isLoading={isLoading}
+        isLoading={!projectData && !error}
         projectItems={unSelectedProjectItems}
         onChange={addSelected}
       />

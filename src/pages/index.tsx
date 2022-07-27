@@ -3,21 +3,21 @@ import { Layout } from 'components/Layout';
 import { SubscribeProjects } from 'components/SubscribeProjects';
 import { SubscribeProjectsUpdate } from 'components/SubscribeProjectsUpdate';
 import { Title } from 'components/Title';
-import { useGetUser } from 'hooks/useGetUser';
 import { getSSRAuthOptions } from 'libs/ssrOptions';
 import { NextPageContext } from 'next';
 import { useMemo } from 'react';
+import useSWR from 'swr';
 
 const HomePage = ({ user }: { user: User }) => {
-  const { data } = useGetUser();
+  const { data: userData } = useSWR('/api/user', () => UserApi.getUser());
 
-  const isLoggedIn = useMemo(() => data?.data.email || user?.email, [data?.data.email, user?.email]);
+  const isLoggedIn = useMemo(() => userData?.data.email || user?.email, [userData?.data.email, user?.email]);
 
   if (isLoggedIn) {
     return (
       <Layout>
         <Title />
-        <SubscribeProjectsUpdate email={data?.data.email || user.email} />
+        <SubscribeProjectsUpdate email={userData?.data.email || user.email} />
       </Layout>
     );
   }

@@ -2,7 +2,6 @@ import { Button } from 'components/Button';
 import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
 import { ModalType } from 'constants/modal';
-import { useGetUserSelectedProjects } from 'hooks/useGetUserSelectedProjects';
 import { useMutateSubscribeUpdate } from 'hooks/useMutateSubscribeUpdate';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
@@ -17,8 +16,6 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
 
   const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
-
-  const { projectItems, selectedProjectMap, isLoading, addSelected, removeSelected } = useGetUserSelectedProjects();
 
   const { subscribeUpdate, isLoading: isLoadingMutate } = useMutateSubscribeUpdate(() => {
     ModalService.show(ModalType.Alert, {
@@ -49,11 +46,6 @@ export const SubscribeProjectsUpdate = ({ email }: SubscribeProjectsUpdateProps)
       <p className="font-bold text-center my-5">{`이메일: ${email}`}</p>
       <SelectProjects
         className="mt-8 w-full"
-        projectItems={projectItems}
-        selectedProjectMap={selectedProjectMap}
-        isLoading={isLoading}
-        addSelected={addSelected}
-        removeSelected={removeSelected}
         onChange={setProjectItemIds}
         onChangeProposeProjects={setProposeProjects}
       />

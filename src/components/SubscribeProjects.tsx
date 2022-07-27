@@ -7,7 +7,6 @@ import { InputEmailFrom } from 'components/InputEmailForm';
 import { Loading } from 'components/Loading';
 import { SelectProjects } from 'components/SelectProjects';
 import { ModalType } from 'constants/modal';
-import { useGetProjects } from 'hooks/useGetProjects';
 import { useMutateSendAuthEmail } from 'hooks/useMutateSendAuthEmail';
 import { useMutateSubscribe } from 'hooks/useMutateSubscribe';
 import { useRouter } from 'next/router';
@@ -18,10 +17,8 @@ export const SubscribeProjects = () => {
   const router = useRouter();
 
   const [email, setEmail] = useState<string>('');
-  const [projectItemIds, setProjectItemIds] = useState<number[]>([]);
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
   const [proposeProjects, setProposeProjects] = useState<string>('');
-
-  const { projectItems, selectedProjectMap, isLoading, addSelected, removeSelected } = useGetProjects();
 
   const { sendEmail, isLoading: isLoadingSendAuthEmail } = useMutateSendAuthEmail();
 
@@ -84,7 +81,7 @@ export const SubscribeProjects = () => {
   const handleSubscribe = useCallback(async () => {
     const optionProjects = proposeProjects.split(',');
 
-    if (projectItemIds.length === 0 && !proposeProjects) {
+    if (selectedIds.length === 0 && !proposeProjects) {
       ModalService.show(ModalType.Alert, {
         title: '최소 한개 이상의 프로젝트를 선택해주세요.',
       });
@@ -92,8 +89,8 @@ export const SubscribeProjects = () => {
       return;
     }
 
-    await subscribeProject({ email, projectIds: projectItemIds, optionProjects });
-  }, [email, projectItemIds, proposeProjects, subscribeProject]);
+    await subscribeProject({ email, projectIds: selectedIds, optionProjects });
+  }, [email, selectedIds, proposeProjects, subscribeProject]);
 
   return (
     <>
@@ -102,12 +99,7 @@ export const SubscribeProjects = () => {
         <>
           <SelectProjects
             className="mt-8 w-full"
-            projectItems={projectItems}
-            selectedProjectMap={selectedProjectMap}
-            isLoading={isLoading}
-            addSelected={addSelected}
-            removeSelected={removeSelected}
-            onChange={setProjectItemIds}
+            onChange={setSelectedIds}
             onChangeProposeProjects={setProposeProjects}
           />
           <Button
