@@ -18,7 +18,6 @@ export class ProjectApi extends BaseApi {
   static getUserSelectedProjects() {
     return this.http.get<{
       projectItems: ProjectItem[];
-      selectedProjectMap: SelectedProjectItemMap;
     }>(`${this.url}/projects/selected`);
   }
 
